@@ -2,19 +2,6 @@
 
 A web application built with **Node.js**, **Express.js**, and **EJS** to help 4,500 employees quickly retrieve their employee ID by entering any part of their name.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Overview
 
 The Employee ID Finder allows employees to input a portion of their name and retrieve their corresponding employee ID. This simple yet effective tool enhances accessibility and efficiency within the organization.
