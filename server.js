@@ -7,6 +7,7 @@ const MongoStore = require("connect-mongo")(session);
 const flash = require("express-flash");
 const logger = require("morgan");
 const cors = require("cors")
+const cron = require("node-cron");
 
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
@@ -14,7 +15,7 @@ const medicationRoutes = require("./routes/medications");
 
 
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/mediForm']; 
+const allowedOrigins = ['https://medi-prep-manage.netlify.app', 'http://https://medi-prep-manage.netlify.app/login', 'https://medi-prep-manage.netlify.app/mediForm', 'https://medi-prep-manage.netlify.app/signup', 'https://medi-prep-manage.netlify.app/logout', 'https://medi-prep-manage.netlify.app/dashboard']; 
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -70,6 +71,25 @@ app.use(flash());
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/medication", medicationRoutes);
+
+// Function to check server health
+const checkServerHealth = async () => {
+  try {
+    const response = await fetch(`https://medi-prep-manage.netlify.app`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("Server health check successful:", data);
+  } catch (error) {
+    console.error("Server health check failed:", error.message);
+  }
+};
+// Schedule health check every 5 minutes
+cron.schedule("*/14 * * * *", () => {
+  console.log("Running health check...");
+  checkServerHealth();
+});
 
 let port = process.env.PORT || 4000
 //Server Running
