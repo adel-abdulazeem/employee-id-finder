@@ -12,7 +12,6 @@ router.post('/create', medController.createMed)
 router.put('/update/:id', medController.updateMed)
 router.put('/approve/:id', medController.approveMed)
 
-
 module.exports = router;
 
 

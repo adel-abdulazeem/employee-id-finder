@@ -13,9 +13,10 @@ const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const medicationRoutes = require("./routes/medications");
 
-
-
-const allowedOrigins = ['https://medi-prep-manage.netlify.app', 'http://https://medi-prep-manage.netlify.app/login', 'https://medi-prep-manage.netlify.app/mediForm', 'https://medi-prep-manage.netlify.app/signup', 'https://medi-prep-manage.netlify.app/logout', 'https://medi-prep-manage.netlify.app/dashboard']; 
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://medi-prep-manage.netlify.app'
+]; 
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -29,28 +30,21 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 app.use(cors(corsOptions))
-
-
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
-
 // Passport config
 require("./config/passport")(passport);
-
 //Connect To Database
 connectDB();
-
 //Static Folder
 app.use(express.static("public"));
-
 //Body Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 //Logging
 app.use(logger("dev"));
-
 // Setup Sessions - stored in MongoDB
 app.use(
   session({
@@ -60,18 +54,14 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
 //Use flash messages for errors, info, ect...
 app.use(flash());
-
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/medication", medicationRoutes);
-
 // Function to check server health
 const checkServerHealth = async () => {
   try {
@@ -85,7 +75,7 @@ const checkServerHealth = async () => {
     console.error("Server health check failed:", error.message);
   }
 };
-// Schedule health check every 5 minutes
+// Schedule health check every 14 minutes
 cron.schedule("*/14 * * * *", () => {
   console.log("Running health check...");
   checkServerHealth();

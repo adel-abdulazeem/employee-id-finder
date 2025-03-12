@@ -83,14 +83,14 @@ updateMed: async (req, res) => {
 searchAllMed: async (req, res) => {
   try {
     const searchQuery = req.params.name;
-    const medications = await Medication.find({
+    const medication = await Medication.find({
       brandName: searchQuery
     })
     .lean();
-    if (!medications) {
+    if (medication.length === 0) {
       return res.status(404).json({ error: 'Medication not found' });
     }
-    res.status(200).json(medications);
+    res.status(200).json(medication);
   } catch (error) {
     res.status(400).json({
       error: error.message,
@@ -101,14 +101,14 @@ searchAllMed: async (req, res) => {
   searchMed: async (req, res) => {
     try {
       const searchQuery = req.params.name;
-      const medications = await Medication.find({
+      const medication = await Medication.find({
         brandName: searchQuery, approved: true
       })
       .lean();
-      if (!medications) {
+      if (medication.length === 0) {
         return res.status(404).json({ error: 'Medication not found' });
       }
-      res.status(200).json(medications);
+      res.status(200).json(medication);
     } catch (error) {
       res.status(400).json({
         error: error.message,
