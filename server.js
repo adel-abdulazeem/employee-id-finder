@@ -15,7 +15,7 @@ const medicationRoutes = require("./routes/medications");
 
 const allowedOrigins = [
   'http://localhost:5173', 
-  'https://medi-prep-manage.netlify.app'
+  'https://medi-prep-manage.netlify.app',
 ]; 
 
 const corsOptions = {
